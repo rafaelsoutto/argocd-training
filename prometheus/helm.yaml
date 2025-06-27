@@ -27,17 +27,18 @@ spec:
       alertmanager:
         enabled: false
       releaseName: prometheus
-      valuesObject:
         # https://artifacthub.io/packages/helm/prometheus-community/prometheus?modal=values
-        fullnameOverride: prometheus
+      fullnameOverride: prometheus
 
-        ################################################
-        ##### Prometheus config
-        ################################################
+      ################################################
+      ##### Prometheus config
+      ################################################
 
-        prometheus:
-          containerPort: 8080
-          containerPortName: metrics
-      releaseNamespace: true
-      namespaces:
-        - envoy-gateway-system
+      prometheus:
+        containerPort: 8080
+        containerPortName: metrics
+
+      server:
+        release-namespace: true
+        namespaces: 
+          - envoy-gateway-system
