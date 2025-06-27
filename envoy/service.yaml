@@ -1,0 +1,33 @@
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy-proxy
+  namespace: envoy-proxy
+  labels:
+    app: envoy-proxy
+spec:
+  type: ClusterIP
+  internalTrafficPolicy: Cluster
+  selector:
+    app: envoy-proxy
+  ports:
+    - name: otel-grpc
+      protocol: TCP
+      port: 4317
+      targetPort: 4317
+    - name: otlp-http
+      port: 4318
+      targetPort: 4318
+      protocol: TCP
+---
+# Service account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: envoy-proxy
+  namespace: envoy-proxy
+  labels:
+    app.kubernetes.io/name: envoy-proxy
+---
