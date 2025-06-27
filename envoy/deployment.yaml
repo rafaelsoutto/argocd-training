@@ -22,9 +22,6 @@ spec:
       - name: envoy-proxy
         imagePullPolicy: IfNotPresent
         image: docker.io/envoyproxy/envoy:v1.34.1 # https://github.com/envoyproxy/envoy/releases
-        args:
-          - "-c"
-          - "/etc/envoy/config.yaml"
         ports:
           - name: otlp-grpc
             containerPort: 4317
