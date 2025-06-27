@@ -38,7 +38,7 @@ spec:
           containerPortName: metrics
     
         server:
-          release-namespace: true
+          releaseNamespace: true
           namespaces: 
             - envoy-gateway-system
 
