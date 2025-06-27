@@ -1,0 +1,60 @@
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envoy-proxy
+  namespace: envoy-proxy
+  labels:
+    app: envoy-proxy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: envoy-proxy
+  template:
+    metadata:
+      labels:
+        app: envoy-proxy
+    spec:
+      serviceAccountName: envoy-proxy
+      containers:
+      - name: envoy-proxy
+        imagePullPolicy: IfNotPresent
+        image: docker.io/envoyproxy/envoy:v1.34.1 # https://github.com/envoyproxy/envoy/releases
+        args:
+          - "-c"
+          - "/etc/envoy/config.yaml"
+        ports:
+          - name: otlp-grpc
+            containerPort: 4317
+            protocol: TCP
+          - name: otlp-http
+            containerPort: 4318
+            protocol: TCP
+          - name: admin
+            containerPort: 9901
+            protocol: TCP
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "2048Mi"
+            cpu: "1000m"
+        volumeMounts:
+          - name: envoy-config
+            mountPath: /etc/envoy
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9901
+        livenessProbe:
+          httpGet:
+            path: /server_info
+            port: 9901
+        startupProbe:
+          httpGet:
+            path: /ready
+            port: 9901
+---
