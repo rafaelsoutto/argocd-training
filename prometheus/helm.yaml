@@ -36,3 +36,6 @@ spec:
         prometheus:
           containerPort: 8080
           containerPortName: metrics
+      releaseNamespace: true
+      namespaces:
+        - envoy-gateway-system
