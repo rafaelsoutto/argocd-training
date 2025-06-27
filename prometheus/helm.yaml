@@ -38,9 +38,15 @@ spec:
           enabled: false
         prometheus-node-exporter:
           enabled: false
-    
   
         prometheus:
+          enabled: true
           containerPort: 8080
           containerPortName: metrics
-    
+
+        # scrape_configs:
+        #   - job_name: prometheus-scrape
+        #     scrape_interval: 1m # default
+        #     scrape_timeout: 10s # default
+        #     metrics_path: /metrics #default
+        #     scheme: http # default
