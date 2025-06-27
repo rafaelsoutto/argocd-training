@@ -24,21 +24,27 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 27.21.0 # https://artifacthub.io/packages/helm/prometheus-community/prometheus
     helm:
-      alertmanager:
-        enabled: false
       releaseName: prometheus
-        # https://artifacthub.io/packages/helm/prometheus-community/prometheus?modal=values
-      fullnameOverride: prometheus
-
-      ################################################
-      ##### Prometheus config
-      ################################################
-
-      prometheus:
-        containerPort: 8080
-        containerPortName: metrics
-
-      server:
-        release-namespace: true
-        namespaces: 
-          - envoy-gateway-system
+      valuesObject:
+        alertmanager:
+          enabled: false
+        prometheus-pushgateway:
+          enabled: false
+        prometheus-node-exporter:
+          enabled: false
+        
+          # https://artifacthub.io/packages/helm/prometheus-community/prometheus?modal=values
+        fullnameOverride: prometheus
+  
+        ################################################
+        ##### Prometheus config
+        ################################################
+  
+        prometheus:
+          containerPort: 8080
+          containerPortName: metrics
+  
+        server:
+          release-namespace: true
+          namespaces: 
+            - envoy-gateway-system
