@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -23,7 +24,14 @@ spec:
     repoURL: https://prometheus-community.github.io/helm-charts
     targetRevision: 27.21.0
     helm:
+      releaseName: prometheus
       valuesObject:
+        fullnameOverride: prometheus
+
+        ################################################
+        ##### prometheus config
+        ################################################
+
         alertmanager:
           enabled: false
         prometheus-pushgateway:
@@ -31,14 +39,8 @@ spec:
         prometheus-node-exporter:
           enabled: false
     
-        fullnameOverride: prometheus
-    
+  
         prometheus:
           containerPort: 8080
           containerPortName: metrics
     
-        server:
-          releaseNamespace: true
-          namespaces: 
-            - envoy-gateway-system
-
